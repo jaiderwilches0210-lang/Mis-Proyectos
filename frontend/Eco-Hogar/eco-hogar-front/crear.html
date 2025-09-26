@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Producto</title>
+</head>
+<body>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #002a22, #001a17);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 320px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 0.8rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      margin-top: 0.3rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: #0dd98d;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0ab77a;
+    }
+        header {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .btn-volver {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin-left: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 0.5rem;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+
+    .btn-volver:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+
+  </style>
+  <header>
+    <a href="principal-admin.html" class="btn-volver">← Volver</a>
+  </header>
+
+  <div class="container">
+    <h1>Crear Producto</h1>
+    <form id="form-crear">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required>
+
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" required>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" rows="3" required></textarea>
+
+      <label for="imagen">Imagen (URL):</label>
+      <input type="text" id="imagen" placeholder="ej: imagen13.jpg" required>
+
+      <button type="submit">Guardar Producto</button>
+    </form>
+  </div>
+
+ <script>
+document.getElementById("form-crear").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const producto = {
+    nombre: document.getElementById("nombre").value,
+    precio: parseFloat(document.getElementById("precio").value),
+    descripcion: document.getElementById("descripcion").value,
+    imagen: document.getElementById("imagen").value
+  };
+
+  try {
+    const res = await fetch("http://localhost:8080/api/productos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(producto)
+    });
+
+    if (res.ok) {
+      alert("Producto creado con éxito ✅");
+      window.location.href = "principal-admin.html"; // volver al panel admin
+    } else {
+      alert("❌ Error al guardar el producto en la base de datos");
+    }
+  } catch (error) {
+    console.error("Error de conexión:", error);
+    alert("No se pudo conectar al servidor 😢");
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+/* ============================= */
+/* ===== ESTILOS GENERALES ==== */
+/* ============================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: radial-gradient(circle, #002a22, #001a17);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================= */
+/* ========== LOADER ========== */
+/* ============================= */
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #001a17;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+#loader .fondo {
+  background-color: #00c781;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+.cargando {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  color: #00c781;
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+}
+
+/* ============================= */
+/* ====== LAYOUT GENERAL ======= */
+/* ============================= */
+
+.layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  gap: 60px;
+  min-height: 100vh;
+}
+
+/* ============================= */
+/* ========= LOGO ============== */
+/* ============================= */
+
+.logo-contenedor {
+  text-align: center;
+}
+
+.logo {
+  width: 850px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* ============================= */
+/* ========= LOGIN ============= */
+/* ============================= */
+
+.login .contenedor {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 255, 200, 0.3);
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+.login h1 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #00f7a5;
+  font-family: 'Trebuchet MS', sans-serif;
+  text-shadow: 0 0 10px #00f7a5aa;
+}
+
+.login input[type="text"],
+.login input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #121212;
+  color: #fff;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.login input[type="text"]:focus,
+.login input[type="password"]:focus {
+  background-color: #1e1e1e;
+  outline: none;
+}
+
+/* BOTÓN DE INGRESAR */
+.login input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #00f7a5;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 10px #00f7a555;
+}
+
+.login input[type="submit"]:hover {
+  background-color: #00c48c;
+  transform: scale(1.02);
+}
+.mensaje {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.mensaje.exito {
+  background-color: #d4ffe7;
+  color: #007e4f;
+  border: 1px solid #00f7a5;
+  box-shadow: 0 0 10px #00f7a577;
+}
+
+.mensaje.error {
+  background-color: #ffe0e0;
+  color: #b30000;
+  border: 1px solid #ff4d4d;
+  box-shadow: 0 0 10px #ff4d4d77;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================= */
+/* ======== RESPONSIVE =========*/
+/* ============================= */
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 30px 20px;
+  }
+
+  .logo-contenedor {
+    order: 1;
+  }
+
+  .logo {
+    width: 220px;
+  }
+
+  .login {
+    order: 2;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .login .contenedor {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 160px;
+  }
+
+  .login h1 {
+    font-size: 20px;
+  }
+
+  .login input[type="submit"] {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+/* From Uiverse.io by Praashoo7 */ 
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loaders,
+.loadersB {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  position: absolute;
+  width: 1.15em;
+  height: 13em;
+  border-radius: 50px;
+  background: #0a382a;
+}
+.loader:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.15em;
+  height: 5em;
+  background: #00f7a5;
+  border-radius: 50px;
+  border: 1px solid #11cc7e;
+  box-shadow:
+    inset 5px 5px 15px #32ff6fab,
+    inset -5px -5px 15px #05e77eab;
+  mask-image: linear-gradient(
+    to bottom,
+    black calc(100% - 48px),
+    transparent 100%
+  );
+}
+.loader::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.15em;
+  height: 4.5em;
+  background: #00f7a5;
+  border-radius: 50px;
+  border: 1px solid #11cc7e;
+  box-shadow:
+    inset 5px 5px 15px #32ff6fab,
+    inset -5px -5px 15px #05e77eab;
+  mask-image: linear-gradient(
+    to top,
+    black calc(100% - 48px),
+    transparent 100%
+  );
+}
+.loaderA {
+  position: absolute;
+  width: 1.15em;
+  height: 13em;
+  border-radius: 50px;
+  background: transparent;
+}
+.ball0,
+.ball1,
+.ball2,
+.ball3,
+.ball4,
+.ball5,
+.ball6,
+.ball7,
+.ball8,
+.ball9 {
+  width: 1.15em;
+  height: 1.15em;
+  box-shadow:
+     #001a17 0px -10px 10px 0px inset,
+     #001a17 0px -15px 15px 0px inset,
+     #001a17 0px -40px 20px 0px inset,
+     #001a17 0px 2px 1px,
+     #001a17 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px,
+    rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px,
+    0px -1px 15px -8px rgba(0, 0, 0, 0.09);
+  border-radius: 50%;
+  transition: transform 800ms cubic-bezier(1, -0.4, 0, 1.4);
+  background-color: rgb(232, 232, 232, 1);
+  animation: 3.63s move ease-in-out infinite;
+}
+.loader:nth-child(2) {
+  transform: rotate(20deg);
+}
+.loader:nth-child(3) {
+  transform: rotate(40deg);
+}
+.loader:nth-child(4) {
+  transform: rotate(60deg);
+}
+.loader:nth-child(5) {
+  transform: rotate(80deg);
+}
+.loader:nth-child(6) {
+  transform: rotate(100deg);
+}
+.loader:nth-child(7) {
+  transform: rotate(120deg);
+}
+.loader:nth-child(8) {
+  transform: rotate(140deg);
+}
+.loader:nth-child(9) {
+  transform: rotate(160deg);
+}
+
+.loaderA:nth-child(2) {
+  transform: rotate(20deg);
+}
+.loaderA:nth-child(3) {
+  transform: rotate(40deg);
+}
+.loaderA:nth-child(4) {
+  transform: rotate(60deg);
+}
+.loaderA:nth-child(5) {
+  transform: rotate(80deg);
+}
+.loaderA:nth-child(6) {
+  transform: rotate(100deg);
+}
+.loaderA:nth-child(7) {
+  transform: rotate(120deg);
+}
+.loaderA:nth-child(8) {
+  transform: rotate(140deg);
+}
+.loaderA:nth-child(9) {
+  transform: rotate(160deg);
+}
+
+.ball1 {
+  animation-delay: 0.2s;
+}
+.ball2 {
+  animation-delay: 0.4s;
+}
+.ball3 {
+  animation-delay: 0.6s;
+}
+.ball4 {
+  animation-delay: 0.8s;
+}
+.ball5 {
+  animation-delay: 1s;
+}
+.ball6 {
+  animation-delay: 1.2s;
+}
+.ball7 {
+  animation-delay: 1.4s;
+}
+.ball8 {
+  animation-delay: 1.6s;
+}
+.ball9 {
+  animation-delay: 1.8s;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(0em);
+  }
+  50% {
+    transform: translateY(12em);
+  }
+  100% {
+    transform: translateY(0em);
+  }
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Producto</title>
+</head>
+<body>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #002a22, #001a17);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 350px;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      margin-top: 0.3rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: #ff4d4d;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #cc0000;
+    }
+        header {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .btn-volver {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin-left: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 0.5rem;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+
+    .btn-volver:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+
+  </style>
+  <header>
+    <a href="principal-admin.html" class="btn-volver">← Volver</a>
+  </header>
+
+  <div class="container">
+    <h1>Eliminar Producto</h1>
+    <label for="seleccion">Selecciona un producto:</label>
+    <select id="seleccion"></select>
+    <button id="btn-eliminar">Eliminar</button>
+  </div>
+
+  <script>
+let productos = [];
+const seleccion = document.getElementById("seleccion");
+const btnEliminar = document.getElementById("btn-eliminar");
+
+// 1. Llenar el <select> con productos desde el backend
+async function cargarProductos() {
+  seleccion.innerHTML = "<option>Cargando...</option>";
+  try {
+    const res = await fetch("http://localhost:8080/api/productos");
+    if (!res.ok) throw new Error("Error al obtener productos");
+    productos = await res.json();
+
+    if (productos.length === 0) {
+      seleccion.innerHTML = "<option value=''>No hay productos</option>";
+      return;
+    }
+
+    seleccion.innerHTML = "";
+    productos.forEach((p) => {
+      const option = document.createElement("option");
+      option.value = p.id; // ⚠️ usamos el id real de la base de datos
+      option.textContent = `${p.nombre} - $${p.precio}`;
+      seleccion.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Error al cargar productos:", err);
+    seleccion.innerHTML = "<option>Error al cargar</option>";
+  }
+}
+
+// 2. Eliminar producto seleccionado
+btnEliminar.addEventListener("click", async () => {
+  const id = seleccion.value;
+  if (!id) {
+    alert("Selecciona un producto para eliminar");
+    return;
+  }
+
+  const producto = productos.find((p) => p.id == id);
+  const confirmar = confirm(`¿Seguro que quieres eliminar "${producto?.nombre}"?`);
+  if (!confirmar) return;
+
+  try {
+    const res = await fetch(`http://localhost:8080/api/productos/${id}`, {
+      method: "DELETE"
+    });
+
+    if (res.ok) {
+      alert("Producto eliminado ✅");
+      cargarProductos(); // recargar la lista
+    } else {
+      const txt = await res.text();
+      console.error("Error al eliminar:", txt);
+      alert("No se pudo eliminar el producto ❌");
+    }
+  } catch (err) {
+    console.error("Error de conexión:", err);
+    alert("No se pudo conectar al servidor");
+  }
+});
+
+// Cargar productos al abrir la página
+document.addEventListener("DOMContentLoaded", cargarProductos);
+</script>
+
+</body>
+</html>

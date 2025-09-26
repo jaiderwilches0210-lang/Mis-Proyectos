@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actualizar Producto</title>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #002a22, #001a17);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 350px;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 0.8rem;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      margin-top: 0.3rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: #f0c808;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #d9aa06;
+    }
+    header {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .btn-volver {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin-left: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-volver:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="principal-admin.html" class="btn-volver">← Volver</a>
+  </header>
+
+  <div class="container">
+    <h1>Actualizar Producto</h1>
+
+    <!-- Selección de producto -->
+    <label for="seleccion">Selecciona un producto:</label>
+    <select id="seleccion"></select>
+
+    <!-- Formulario de edición -->
+    <form id="form-actualizar">
+      <input type="hidden" id="id">
+
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required>
+
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" required>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" rows="3" required></textarea>
+
+      <label for="imagen">Imagen (URL):</label>
+      <input type="text" id="imagen" required>
+
+      <button type="submit">Guardar Cambios</button>
+    </form>
+  </div>
+
+  <script>
+    let productos = [];
+    const seleccion = document.getElementById('seleccion');
+    const form = document.getElementById('form-actualizar');
+
+    // 1. Cargar productos desde el backend
+    async function cargarProductos() {
+      seleccion.innerHTML = "<option>Cargando...</option>";
+      try {
+        const res = await fetch('http://localhost:8080/api/productos');
+        if (!res.ok) {
+          const texto = await res.text();
+          console.error('Error al obtener productos:', res.status, texto);
+          throw new Error(`Error HTTP ${res.status}`);
+        }
+
+        productos = await res.json();
+
+        if (productos.length === 0) {
+          seleccion.innerHTML = "<option value=''>No hay productos</option>";
+          return;
+        }
+
+        seleccion.innerHTML = "";
+        productos.forEach((p) => {
+          const option = document.createElement("option");
+          option.value = p.id; // id de la BD
+          option.textContent = p.nombre;
+          seleccion.appendChild(option);
+        });
+
+        cargarFormulario(productos[0].id); // cargar el primero por defecto
+      } catch (err) {
+        console.error('Error cargando productos:', err);
+        seleccion.innerHTML = "<option>Error al cargar</option>";
+      }
+    }
+
+    // 2. Llenar el formulario con el producto seleccionado
+    function cargarFormulario(id) {
+      const producto = productos.find(p => p.id == id);
+      if (!producto) return;
+
+      document.getElementById('id').value = producto.id;
+      document.getElementById('nombre').value = producto.nombre;
+      document.getElementById('precio').value = producto.precio;
+      document.getElementById('descripcion').value = producto.descripcion;
+      document.getElementById('imagen').value = producto.imagen;
+    }
+
+    seleccion.addEventListener("change", (e) => {
+      cargarFormulario(e.target.value);
+    });
+
+    // 3. Guardar cambios (PUT al backend)
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('id').value;
+
+      const productoActualizado = {
+        nombre: document.getElementById('nombre').value,
+        precio: parseFloat(document.getElementById('precio').value),
+        descripcion: document.getElementById('descripcion').value,
+        imagen: document.getElementById('imagen').value
+      };
+
+      try {
+        const res = await fetch(`http://localhost:8080/api/productos/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productoActualizado)
+        });
+
+        if (res.ok) {
+          alert("Producto actualizado ✅");
+          window.location.href = "principal-admin.html";
+        } else {
+          const txt = await res.text();
+          console.error('Error al actualizar:', res.status, txt);
+          alert("❌ No se pudo actualizar el producto");
+        }
+      } catch (err) {
+        console.error('Error de conexión:', err);
+        alert('No se pudo conectar al servidor');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', cargarProductos);
+  </script>
+</body>
+</html>

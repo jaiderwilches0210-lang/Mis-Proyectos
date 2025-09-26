@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Menú Admin</title>
+  <link rel="stylesheet" href="principal-admin.css"/>
+</head>
+<body>
+  <section class="menu">
+    <h1>Menu</h1>
+    <div id="crear">
+      <button class="btn" id="btn-crear">Crear producto</button>
+    </div>
+    <div id="actualizar">
+      <button class="btn" id="btn-actualizar">Actualizar producto</button>
+    </div>
+    <div id="eliminar">
+      <button class="btn" id="btn-eliminar">Eliminar producto</button>
+    </div>
+    <div id="reporte">
+      <button class="btn" id="btn-reporte">Reporte de ventas</button>
+    </div>
+    <div id="promociones">
+      <button class="btn" id="btn-promociones">Gestionar promociones</button>
+    </div>
+    <div id="Usuarios">
+      <button class="btn" id="btn-usuarios">Gestionar Usuarios</button>
+    </div>
+  </section>
+
+  <script>
+    // Eventos para cada botón
+    document.getElementById('btn-crear').addEventListener('click', function() {
+      
+      window.location.href = "crear.html";
+      
+    });
+
+    document.getElementById('btn-actualizar').addEventListener('click', function() {
+      window.location.href = "actualizar.html";
+      
+    });
+
+    document.getElementById('btn-eliminar').addEventListener('click', function() {
+      window.location.href = "eliminar.html";
+      
+    });
+
+    document.getElementById('btn-reporte').addEventListener('click', function() {
+      window.location.href = "reportes.html";
+      
+    });
+
+    document.getElementById('btn-promociones').addEventListener('click', function() {
+      window.location.href = "promociones.html";
+      
+    });
+
+    document.getElementById('btn-usuarios').addEventListener('click', function() {
+      window.location.href = "usuarios.html";
+      
+    });
+  </script>
+</body>
+</html>

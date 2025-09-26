@@ -1,0 +1,578 @@
+/* === FUENTE ELEGANTE === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* === GENERAL === */
+* {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at top, #002a22, #001a17);
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+a {
+  color: #80ffb0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #fff;
+}
+
+/* === TOOLTIP BUTTON (no se tocó) === */
+.button {
+  --width: 100px;
+  --height: 35px;
+  --tooltip-height: 35px;
+  --tooltip-width: 90px;
+  --gap-between-tooltip-to-button: 18px;
+  --button-color: #222;
+  --tooltip-color: #fff;
+  width: var(--width);
+  height: var(--height);
+  background: var(--button-color);
+  position: relative;
+  text-align: center;
+  border-radius: 0.5em;
+  font-family: "Arial";
+  transition: background 0.7s;
+}
+.button::before {
+  position: absolute;
+  content: attr(data-tooltip);
+  width: var(--tooltip-width);
+  height: var(--tooltip-height);
+  background-color: #555;
+  font-size: 0.9rem;
+  color: #fff;
+  border-radius: 0.25em;
+  line-height: var(--tooltip-height);
+  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) + 10px);
+  left: calc(50% - var(--tooltip-width) / 2);
+}
+.button::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-top-color: #555;
+  left: calc(50% - 10px);
+  bottom: calc(100% + var(--gap-between-tooltip-to-button) - 10px);
+}
+.button::after, .button::before {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s;
+}
+.button-wrapper, .text, .icon {
+  overflow: hidden;
+  position: absolute;
+  width: 100%; height: 100%;
+  left: 0; color: #fff;
+}
+.text { display:flex; align-items:center; justify-content:center; top:0; }
+.text, .icon { transition: top 0.5s; }
+.icon {
+  color:#fff; top:100%;
+  display:flex; align-items:center; justify-content:center;
+}
+.icon svg { width:24px; height:24px; }
+.button:hover { background:#222; }
+.button:hover .text { top:-100%; }
+.button:hover .icon { top:0; }
+.button:hover:before, .button:hover:after { opacity:1; visibility:visible; }
+.button:hover:after {
+  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
+}
+.button:hover:before {
+  bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
+}
+
+/* === HEADER === */
+header {
+  background: #003326;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  box-shadow: 0 0 20px rgba(128, 255, 176, 0.6);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+header ul li img {
+  height: 80px;
+  filter: drop-shadow(0 0 10px #80ffb0);
+}
+
+.menu {
+  font-weight: 600;
+  position: relative;
+  letter-spacing: 0.5px;
+}
+.menu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #80ffb0;
+  transition: width 0.3s ease;
+}
+.menu:hover::after { width: 100%; }
+
+/* Contador carrito badge */
+.badge {
+  background: #80ffb0;
+  color: #001a17;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  margin-left: 6px;
+  font-size: 0.85rem;
+}
+
+/* === SECCIONES === */
+section { margin: 80px 0; padding: 0 8%; }
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #80ffb0;
+  text-shadow: 0 0 8px rgba(128, 255, 176, 0.6);
+}
+
+/* === ABOUT === */
+#about {
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 60px 40px;
+  text-align: center;
+  background: rgba(0, 51, 38, 0.6);
+  border-radius: 30px;
+  box-shadow: 0 0 25px rgba(128, 255, 176, 0.2);
+  line-height: 1.8;
+}
+#about h1 {
+  font-size: 2.5rem;
+  color: #80ffb0;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(128, 255, 176, 0.6);
+}
+#about p { font-size: 1.1rem; color: #f0f0f0; white-space: pre-line; }
+
+/* === PRODUCTOS === */
+#productos { text-align: center; }
+#productos img {
+  width: 200px; height: 200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 20px;
+}
+#productos img:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(128,255,176,0.6); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 por fila */
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-items: center;
+}
+
+/* === CARDS === */
+.card {
+  background-color: transparent;
+  width: 260px;
+  height: 320px;
+  perspective: 1000px;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 1rem;
+  margin: auto;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+.card:hover { transform: scale(1.05); }
+
+.card-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  text-align: center;
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d;
+  border-radius: 1rem;
+}
+.card:hover .card-inner { transform: rotateY(180deg); }
+
+.card-front, .card-back {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgb(0, 92, 61);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.card-front {
+  background: linear-gradient(180deg, #80ffb0 0%, #002a22 100%);
+  color: #fff;
+}
+.card-back {
+  background: linear-gradient(180deg, #002a22 0%, #003e30 55%, #80ffb0 120%);
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+.card-front img, .card-back img {
+  border-radius: 0.7rem;
+  max-width: 80%;
+  height: auto;
+  margin: 10px auto;
+}
+
+.title { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; }
+.card p { font-size: 0.95rem; line-height: 1.4; }
+
+/* Precio / Materiales dentro del back */
+.card-back .meta {
+  width: 100%;
+  display: grid;
+  gap: 6px;
+  font-size: 0.92rem;
+}
+.badge-soft {
+  display: inline-block;
+  background: rgba(128,255,176,0.15);
+  color: #c9ffe0;
+  border: 1px solid rgba(128,255,176,0.35);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+/* === BOTÓN AGREGAR AL CARRITO (animado) === */
+.btn-carrito {
+  --shadow: 0 8px 20px rgba(128,255,176,0.25);
+  background: #80ffb0;
+  color: #001a17;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: var(--shadow);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-carrito .icono { transition: transform 0.25s ease; }
+.btn-carrito:hover { transform: translateY(-2px); background: #a6ffd0; }
+.btn-carrito:active { transform: translateY(0); }
+.btn-carrito:hover .icono { transform: translateX(3px) rotate(-10deg); }
+
+/* Mini toast confirmación */
+.confirmacion-carrito {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #003326;
+  color: #80ffb0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 10000;
+  animation: aparecer 0.25s ease, desvanecer 0.25s ease 1.9s forwards;
+}
+@keyframes aparecer { from {opacity:0; transform: translateY(10px)} to {opacity:1; transform: translateY(0)} }
+@keyframes desvanecer { to {opacity:0; transform: translateY(10px)} }
+
+/* === POPUP === */
+.popup {
+  display: none; /* inicia oculto si ya fue cerrado; script lo muestra si aplica */
+  justify-content: center;
+  align-items: center;
+  position: fixed; inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+}
+.popup-content img { width: 90%; max-width: 560px; }
+.popup-content {
+  background-color: rgba(0, 0, 0, 0.742);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 700px;
+  position: relative;
+  box-shadow: 1px 3px 15px #80ffb0;
+  width: 100%;
+}
+.close-btn {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 24px; cursor: pointer; color: #80ffb0;
+}
+
+/* === CONTACTO === */
+#contact {
+  padding: 60px;
+  text-align: center;
+  background: #003326;
+  border-radius: 50px 50px 0 0;
+  box-shadow: inset 0 0 30px rgba(128, 255, 176, 0.2);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 992px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .card { width: 220px; height: 300px; }
+}
+
+/* === CARRITO (página carrito.html) === */
+#carrito {
+  padding: 40px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.carrito-panel {
+  background: rgba(0, 51, 38, 0.6);
+  border: 1px solid rgba(128,255,176,0.35);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+#lista-carrito { margin: 10px 0 20px; display: grid; gap: 12px; }
+.carrito-vacio {
+  text-align:center; padding: 24px; border-radius: 12px;
+  background: rgba(0,0,0,0.25); color: #c9ffe0;
+}
+
+.item-carrito {
+  background: #003326;
+  padding: 12px;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  color: #e9fff3;
+  border: 1px solid rgba(128,255,176,0.25);
+}
+.item-carrito img {
+  width: 64px; height: 64px; border-radius: 8px; object-fit: cover;
+}
+.item-info { display: grid; gap: 4px; }
+.item-nombre { font-weight: 700; }
+.item-precio { opacity: 0.9; }
+
+.item-actions { display: inline-flex; align-items: center; gap: 8px; }
+.qty-btn {
+  width: 28px; height: 28px; border-radius: 8px;
+  border: 1px solid rgba(128,255,176,0.4);
+  background: rgba(128,255,176,0.15);
+  color: #c9ffe0; font-weight: 800; cursor: pointer;
+}
+.qty { min-width: 28px; text-align: center; font-weight: 700; }
+
+.btn-eliminar {
+  background: transparent; color: #ffb3b3; border: 1px solid #ffb3b3;
+  border-radius: 8px; padding: 6px 10px; cursor: pointer;
+}
+
+.carrito-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px; margin-top: 10px;
+}
+.total {
+  font-size: 1.2rem; font-weight: 800; color: #80ffb0;
+}
+
+.btn {
+  background: #80ffb0; color: #001a17; border: none;
+  padding: 10px 16px; border-radius: 10px; font-weight: 800; cursor: pointer;
+}
+.btn.secondary {
+  background: transparent; color: #80ffb0;
+  border: 1px solid rgba(128,255,176,0.4);
+}
+
+/* === FLY TO CART (animación) === */
+.fly-img {
+  position: fixed; width: 64px; height: 64px; object-fit: cover;
+  border-radius: 8px; z-index: 99999; pointer-events: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  transition: transform 0.6s cubic-bezier(.2,.7,.2,1), opacity 0.6s;
+}
+/* === Remover el estilo predeterminado del botón === */
+.vaciar-carrito {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 16px; /* Aseguramos que sea un tamaño legible por defecto */
+  font-family: 'Arial', sans-serif;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+  text-align: center;
+  letter-spacing: 3px;
+  outline: none; /* Elimina el contorno del botón cuando está enfocado */
+  transition: color 0.3s, transform 0.2s ease-in-out; /* Transiciones suaves */
+}
+
+/* Animación para el texto */
+.hover-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: attr(data-text);
+  color: #37FF8B; /* Color del texto cuando pasa el hover */
+  width: 0%;
+  height: 100%;
+  border-right: 6px solid #37FF8B;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.5s ease, filter 0.3s ease; /* Suavizamos la animación */
+  -webkit-text-stroke: 1px #37FF8B;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Estilo para el texto que aparece al hacer hover */
+.vaciar-carrito:hover .hover-text {
+  width: 100%; /* La animación hace que el texto aparezca */
+  filter: drop-shadow(0 0 23px rgba(55, 255, 139, 0.7)); /* Efecto de sombra en el hover */
+}
+
+/* Añadimos un efecto al texto cuando el mouse pasa sobre el botón */
+.vaciar-carrito:hover {
+  color: #37FF8B; /* Color del texto cuando el hover se activa */
+  transform: scale(1.05); /* Aumento sutil del tamaño */
+}
+
+/* Efecto cuando el botón tiene el enfoque */
+.vaciar-carrito:focus {
+  outline: none;
+  border: 2px solid #37FF8B; /* Añadimos borde cuando el botón es enfocado */
+}
+
+/* Efecto para el botón en estado inactivo (cuando no hay hover) */
+.vaciar-carrito:active {
+  transform: scale(0.98); /* Reducción sutil para dar un toque de interactividad */
+}
+
+
+
+/* === Remover el estilo predeterminado del botón === */
+.btn-pay {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 16px; /* Aseguramos que sea un tamaño legible por defecto */
+  font-family: 'Arial', sans-serif;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+  text-align: center;
+  letter-spacing: 3px;
+  outline: none; /* Elimina el contorno del botón cuando está enfocado */
+  transition: color 0.3s, transform 0.2s ease-in-out; /* Transiciones suaves */
+}
+
+.btn-animado {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+  text-align: center;
+  letter-spacing: 3px;
+  outline: none;
+  transition: color 0.3s, transform 0.2s ease-in-out;
+}
+
+.btn-animado .hover-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #37FF8B;
+  width: 0%;
+  height: 100%;
+  border-right: 6px solid #37FF8B;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.5s ease, filter 0.3s ease;
+  -webkit-text-stroke: 1px #37FF8B;
+  display: block;
+  box-sizing: border-box;
+}
+
+.btn-animado:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px rgba(55, 255, 139, 0.7));
+}
+
+.btn-animado:hover {
+  color: #37FF8B;
+  transform: scale(1.05);
+}
+
+.btn-animado:focus {
+  outline: none;
+  border: 2px solid #37FF8B;
+}
+
+.btn-animado:active {
+  transform: scale(0.98);
+}
+
+

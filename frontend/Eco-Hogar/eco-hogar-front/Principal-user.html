@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eco-Hogar</title>
+  <link rel="stylesheet" href="estilos-Principal.css" />
+</head>
+<body>
+  <!-- POP-UP DE ANUNCIO -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <h2>¡Oferta Especial!</h2>
+      <img src="prom.png" alt="Promoción">
+      <span id="close-btn" class="close-btn">&times;</span>
+      <p>Compra ahora y obtén un 20% de descuento.</p>
+    </div>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <ul>
+      <li><img src="logo3.png" alt="Logo" /></li>
+      <li><a href="#about" class="menu">Sobre nosotros</a></li>
+      <li><a href="#productos" class="menu">Productos</a></li>
+      <li><a href="#contact" class="menu">Contacto</a></li>
+      <li>
+        <a href="carrito.html" class="menu">🛍 Carrito
+          <span id="contador-carrito" class="badge">0</span>
+        </a>
+      </li>
+      <li><a href="index.html" class="menu">Cerrar-sesion</a></li>
+    </ul>
+  </header>
+
+  <!-- ===== SOBRE NOSOTROS ===== -->
+  <section id="about">
+    <h1>Sobre nosotros</h1>
+    <p>
+      En Eco-Hogar creemos que cada pequeño cambio en casa puede generar un gran impacto en el planeta.
+      Somos una iniciativa dedicada a ofrecer productos, ideas y soluciones sostenibles que hacen de tu 
+      hogar un espacio más saludable, eficiente y respetuoso con el medio ambiente.
+      🌍 Nuestra misión: promover hogares más verdes que cuiden de la naturaleza sin renunciar a la comodidad.
+    </p>
+    <img src="logo3.png" alt="Logo Eco-Hogar">
+  </section>
+
+  <!-- ===== PRODUCTOS ===== -->
+  <section id="productos">
+    <h2>Productos</h2>
+    <div class="grid"></div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contact">
+    <h2>Contacto</h2>
+    <p>📧 Eco-Hogar@gmail.com</p>
+    <p>🌐 <a href="https://github.com/jaider" target="_blank">github.com/jaider</a></p>
+  </section>
+
+  <!-- 👇 Solo cargamos el JS externo -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte de Ventas</title>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #002a22, #001a17);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 800px;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.8rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    th {
+      background-color: rgba(255, 255, 255, 0.1);
+      font-weight: bold;
+    }
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    a {
+      color: #72f5ae;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reporte de Ventas</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Venta</th>
+          <th>Fecha</th>
+          <th>Productos</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-ventas">
+        </tbody>
+    </table>
+    <br/>
+    <a href="principal-admin.html">Volver a principal</a>
+  </div>
+
+  <script>
+    const tablaVentas = document.getElementById("tabla-ventas");
+
+    async function cargarReporte() {
+      try {
+        const res = await fetch("http://localhost:8080/api/ventas", {
+          method: 'GET',
+        });
+
+        if (res.ok) {
+          const ventas = await res.json();
+          tablaVentas.innerHTML = ''; // Limpiar la tabla antes de cargar
+
+          ventas.forEach(venta => {
+            let totalVenta = 0;
+            const productosHtml = venta.productos.map(p => {
+              totalVenta += p.precio * p.cantidad;
+              return `${p.nombre} x${p.cantidad} ($${p.precio.toFixed(2)})`;
+            }).join('<br>');
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${venta.id}</td>
+              <td>${new Date(venta.fechaVenta).toLocaleString()}</td>
+              <td>${productosHtml}</td>
+              <td>$${totalVenta.toFixed(2)}</td>
+            `;
+            tablaVentas.appendChild(row);
+          });
+        } else {
+          tablaVentas.innerHTML = `<tr><td colspan="4">Error al cargar el reporte de ventas.</td></tr>`;
+        }
+      } catch (err) {
+        console.error("Error de conexión:", err);
+        tablaVentas.innerHTML = `<tr><td colspan="4">No se pudo conectar al servidor.</td></tr>`;
+      }
+    }
+
+    cargarReporte(); // Llama a la función al cargar la página
+  </script>
+</body>
+</html>

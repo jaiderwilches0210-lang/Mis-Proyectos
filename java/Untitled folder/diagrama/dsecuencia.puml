@@ -1,0 +1,41 @@
+@startuml
+!theme plain
+title Diagrama de Secuencia: Iniciar Sesión como Cliente
+
+actor "Usuario del Sistema" as user
+participant "Main.java" as main
+participant "TiendaServicio.java" as servicio
+participant "UsuarioDaoImpl.java" as dao
+database "Base de Datos\ntienda_online" as db
+
+user -> main: "1. Iniciar sesión"
+activate main
+main -> main: Recibe email y contraseña
+main -> servicio: iniciarSesion(email, contrasena)
+activate servicio
+
+servicio -> dao: obtenerUsuarioPorEmail(email)
+activate dao
+dao -> db: SELECT * FROM usuario WHERE email=?
+activate db
+db --> dao: Retorna datos del usuario
+deactivate db
+dao --> servicio: Retorna objeto Usuario (si existe)
+deactivate dao
+
+alt Credenciales correctas
+    servicio -> servicio: Valida la contraseña
+    servicio --> main: Retorna objeto Usuario
+    deactivate servicio
+    main -> main: Asigna usuarioLogueado
+    main -> main: Llama a menuCliente()
+    activate main
+    main --> user: Muestra "¡Bienvenido, [nombre]!"
+    deactivate main
+else Credenciales incorrectas
+    servicio --> main: Retorna null
+    deactivate servicio
+    main --> user: Muestra "Credenciales incorrectas."
+end
+
+@enduml

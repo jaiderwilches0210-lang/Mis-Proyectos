@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios</title>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #002a22, #001a17);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .contenedor {
+      display: grid;
+      gap: 20px;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 10px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+      color: #1b5e20;
+      font-size: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    input, select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .btn {
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn.crear {
+      background: #43a047;
+      color: white;
+    }
+    .btn.crear:hover {
+      background: #388e3c;
+    }
+    .lista-usuarios {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .usuario {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .rol {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .rol.admin {
+      background: #2e7d32;
+      color: white;
+    }
+    .rol.user {
+      background: #0288d1;
+      color: white;
+    }
+    .btn.eliminar {
+      background: #e53935;
+      color: white;
+    }
+    .btn.eliminar:hover {
+      background: #c62828;
+    }
+        header {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .btn-volver {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin-left: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 0.5rem;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+
+    .btn-volver:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+
+  </style>
+</head>
+<body>
+
+    <header>
+      <a href="principal-admin.html" class="btn-volver">← Volver</a>
+    </header>
+
+  <main class="contenedor">
+    <!-- Formulario de creación -->
+    <section class="card">
+      <h2>➕ Crear Usuario</h2>
+      <form id="form-usuario">
+        <label>Nombre de usuario</label>
+        <input type="text" id="nombre" placeholder="Escribe un nombre..." required>
+
+        <label>Contraseña</label>
+        <input type="password" id="password" placeholder="Escribe una contraseña..." required>
+
+        <label>Rol</label>
+        <select id="rol">
+          <option value="user">Usuario</option>
+          <option value="admin">Administrador</option>
+        </select>
+
+        <button type="submit" class="btn crear">Crear</button>
+      </form>
+    </section>
+
+    <!-- Lista de usuarios -->
+    <section class="card">
+      <h2>👥 Usuarios Registrados</h2>
+      <div class="lista-usuarios" id="lista-usuarios"></div>
+    </section>
+  </main>
+
+  <script>
+    // === Inicializar usuarios desde localStorage ===
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [
+      { nombre: "admin", password: "5678", rol: "admin" },
+      { nombre: "user1", password: "1234", rol: "user" }
+    ];
+
+    const listaUsuarios = document.getElementById("lista-usuarios");
+    const form = document.getElementById("form-usuario");
+
+    function guardarUsuarios() {
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    }
+
+    function renderizarUsuarios() {
+      listaUsuarios.innerHTML = "";
+      if (usuarios.length === 0) {
+        listaUsuarios.innerHTML = "<p>No hay usuarios registrados.</p>";
+        return;
+      }
+
+      usuarios.forEach((u, index) => {
+        const div = document.createElement("div");
+        div.classList.add("usuario");
+        div.innerHTML = `
+          <span>${u.nombre}</span>
+          <span class="rol ${u.rol}">${u.rol}</span>
+          <button class="btn eliminar" data-index="${index}">Eliminar</button>
+        `;
+        listaUsuarios.appendChild(div);
+      });
+
+      // Agregar eventos de eliminación
+      document.querySelectorAll(".btn.eliminar").forEach(boton => {
+        boton.addEventListener("click", (e) => {
+          const i = e.target.dataset.index;
+          if (confirm(`¿Seguro que quieres eliminar a "${usuarios[i].nombre}"?`)) {
+            usuarios.splice(i, 1);
+            guardarUsuarios();
+            renderizarUsuarios();
+          }
+        });
+      });
+    }
+
+    // === Evento de creación de usuario ===
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const rol = document.getElementById("rol").value;
+
+      if (!nombre || !password) {
+        alert("Debes completar todos los campos.");
+        return;
+      }
+
+      if (usuarios.some(u => u.nombre === nombre)) {
+        alert("Ese nombre de usuario ya existe.");
+        return;
+      }
+
+      usuarios.push({ nombre, password, rol });
+      guardarUsuarios();
+      renderizarUsuarios();
+
+      form.reset();
+      alert("✅ Usuario creado correctamente");
+    });
+
+    // Render inicial
+    renderizarUsuarios();
+  </script>
+
+</body>
+</html>

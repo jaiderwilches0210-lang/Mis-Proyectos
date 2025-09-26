@@ -1,0 +1,37 @@
+------- BASE DE DATOS
+CREATE DATABASE IF NOT EXISTS tiendaEH;
+USE tiendaEH;
+
+CREATE TABLE usuario(
+idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(255),
+apellido VARCHAR(255),
+edad Int ,
+email VARCHAR(255) UNIQUE,
+contrasena VARCHAR(255),
+rol VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE administrador(
+idAdministrador INT PRIMARY KEY,
+FOREIGN KEY (idAdministrador) REFERENCES usuario(idUsuario) ON DELETE CASCADE
+
+);
+
+CREATE TABLE cliente(
+idCliente INT PRIMARY KEY,
+direccion VARCHAR(255),
+telefono VARCHAR(20),
+FOREIGN KEY (idCliente)  REFERENCES usuario(idUsuario) ON DELETE CASCADE
+);
+
+CREATE TABLE producto (
+idProducto INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(255),
+descripcion TEXT,
+precio DECIMAL(10,2),
+stock INT,
+imagenURL VARCHAR(255)
+);
+
+-----------------------------------------
