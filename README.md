@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📂 Mis Proyectos – Jaider Estiv Wilches Cuevas
 
 Repositorio con mis proyectos personales y ejercicios de programación.  
@@ -18,3 +19,6 @@ Clonar el repositorio:
 ```bash
 git clone https://github.com/jaiderwilches0210-lang/Mis-Proyectos.git
 cd Mis-Proyectos
+=======
+# Primer commit
+>>>>>>> 74a8c10 (Primer commit)
